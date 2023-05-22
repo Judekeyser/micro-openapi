@@ -10,7 +10,9 @@ from sqlalchemy import select, insert, func, Engine as DbEngine
 from app.business.table_defs import GreetingTable, new_uuid, DatabaseGateway
 from app.business.pagination import Paginated
 from app.business.hateoas import Hyperlink, url
-import app.business.openapi as openapi
+
+import microapi.extension as openapi
+from app.openapi import TypeAggressiveDefinition
 
 from app.endpoints.greeting import GreetingDetail
 
@@ -135,18 +137,18 @@ class Greeting(MethodView, Engine):
                         greeting_table=db_gateway.greeting_table,
                         entity_link_forge=GreetingDetail.route)
 
-    @openapi.TypeAggressiveDefinition(
+    @TypeAggressiveDefinition(
         summary="Get a Greeting",
         tag="greet",
         parameter=[
             openapi.Parameter(
                 name="page",
-                schema=int,
+                schema='int',
                 description="Page to fetch in the pagination"
             ),
             openapi.Parameter(
                 name="page_size",
-                schema=int,
+                schema='int',
                 description="Expected page size"
             )
         ],
@@ -163,7 +165,7 @@ class Greeting(MethodView, Engine):
         )
         return self.do_get(pagination)
 
-    @openapi.TypeAggressiveDefinition(
+    @TypeAggressiveDefinition(
         summary="Create a Greeting",
         tag="greet",
         response=openapi.Response(

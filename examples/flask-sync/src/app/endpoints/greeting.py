@@ -9,7 +9,9 @@ from pydantic import BaseModel
 from sqlalchemy import select, Engine as DbEngine
 
 from app.business.table_defs import GreetingTable, DatabaseGateway
+
 import microapi.extension as openapi
+from app.openapi import TypeAggressiveDefinition
 
 
 class Summary(BaseModel):
@@ -75,7 +77,7 @@ class GreetingDetail(MethodView, Engine):
                         engine=db_gateway.engine,
                         greeting_table=db_gateway.greeting_table)
 
-    @openapi.TypeAggressiveDefinition(
+    @TypeAggressiveDefinition(
         summary="Get a Greeting",
         tag="greet",
         response=openapi.Response(

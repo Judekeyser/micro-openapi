@@ -1,8 +1,7 @@
 import os
 
-from flask import (
-    Flask, send_from_directory
-)
+from flask import Flask, send_from_directory, jsonify
+from flask.views import MethodView
 
 from app.business.table_defs import DatabaseGateway
 from microapi.extension import specification_from_endpoints
@@ -24,7 +23,13 @@ def create_app(named_endpoints):
     for name, endpoint in named_endpoints:
         application.add_url_rule(endpoint.route(), view_func=endpoint.as_view(name))
 
-    application.add_url_rule("/openapi.json", view_func=specification_from_endpoints(endpoints).as_view('openapi_documentation'))
+    class OpenAPiView(MethodView):
+        _SPECIFICATION_ = specification_from_endpoints(endpoints)
+        def get(self):
+            return jsonify(self._SPECIFICATION_.to_dict())
+
+
+    application.add_url_rule("/openapi.json", view_func=OpenAPiView.as_view('openapi_documentation'))
     return application
 
 

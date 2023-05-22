@@ -1,13 +1,12 @@
-from typing import Optional, Type, Union
+from typing import Optional, Type, Literal
 from dataclasses import dataclass
-from uuid import UUID
 
 from pydantic import BaseModel
 from pydantic.schema import schema
 
 from apispec import APISpec
 
-PARAMETER_TYPE = Union[Type[int], Type[UUID]]
+PARAMETER_TYPE = Literal['int', 'uuid']
 
 
 @dataclass(frozen=True)
@@ -113,10 +112,10 @@ def specification_from_endpoints(endpoints):
     for identifier, schema_definition in schemas.items():
         specification.components.schema(identifier, schema_definition)
 
-    def type_of_parameter(param_type):
-        if param_type == int:
+    def type_of_parameter(param_type: PARAMETER_TYPE):
+        if param_type == 'int':
             return dict(type='integer')
-        elif param_type == UUID:
+        elif param_type == 'uuid':
             return dict(type='string', format='uuid')
 
     for endpoint in endpoints:
