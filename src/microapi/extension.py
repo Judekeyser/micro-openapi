@@ -57,8 +57,8 @@ class AbstractDefinitionHolder:
 class DefinitionSchema:
     summary: str
     response: Response
-    tag: Optional[str] = None,
-    parameter: Optional[list[Parameter]] = None,
+    tag: Optional[str] = None
+    parameter: Optional[list[Parameter]] = None
     body: Optional[Body] = None
 
     def __call__(self, f): ...
