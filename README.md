@@ -1,8 +1,6 @@
 # Micro-OpenAPI
 
-## Run the examples
-
-### Flask
+## Install
 
 First install the `microapi` library in a fresh environment.
 ```py
@@ -15,4 +13,10 @@ pip install build
 # Run MyPy, for satisfaction purpose
 
 python -m build
+
+# Install the wheel in your environment
 ```
+
+## Run the examples
+
+### Flask
