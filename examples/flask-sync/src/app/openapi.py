@@ -21,9 +21,9 @@ class TypeAggressiveDefinition(Definition):
                 def extract_param_from_request(value, expected_type: PARAMETER_TYPE) -> Optional[Union[int, UUID]]:
                     if value is None:
                         return None
-                    elif expected_type == int:
+                    elif expected_type == 'int':
                         return int(value)
-                    elif expected_type == UUID:
+                    elif expected_type == 'uuid':
                         return UUID(value)
 
                 kwargs |= dict(
